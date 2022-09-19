@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.Map;
 
 public class PatchUserTest {
@@ -23,7 +24,7 @@ public class PatchUserTest {
     }
 
     @After
-    public void tearDown(){
+    public void tearDown() {
         userClient.deleteUser(accessToken);
     }
 
@@ -33,7 +34,7 @@ public class PatchUserTest {
     public void userFieldsCanBePatchedTest() {
         userClient.createUser(user);
         accessToken = userClient.loginUser(UserCredentials.from(user)).extract().path("accessToken");
-        ValidatableResponse response = userClient.patchUser(accessToken, new User(newEmail, newPassword, newName) );
+        ValidatableResponse response = userClient.patchUser(accessToken, new User(newEmail, newPassword, newName));
 
         int statusCode = response.extract().statusCode();
         Assert.assertEquals("Status code is not 200", 200, statusCode);
@@ -52,7 +53,7 @@ public class PatchUserTest {
     @Description("patch /api/auth/user")
     public void userFieldsCanBePatchedWithoutAuthorizationTest() {
         accessToken = userClient.createUser(user).extract().path("accessToken");
-        ValidatableResponse response = userClient.patchUser(accessToken, new User(newEmail, newPassword, newName) );
+        ValidatableResponse response = userClient.patchUser(accessToken, new User(newEmail, newPassword, newName));
 
         int statusCode = response.extract().statusCode();
         Assert.assertEquals("Status code is not 401", 401, statusCode);

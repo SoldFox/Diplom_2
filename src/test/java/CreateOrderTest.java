@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
 import java.util.HashMap;
 
 public class CreateOrderTest {
@@ -43,7 +44,7 @@ public class CreateOrderTest {
         Assert.assertTrue("Value in \"success\" field = false", success);
 
         int orderNumber = response.extract().path("order.number");
-        Assert.assertNotEquals("Order number is equal 0",0, orderNumber);
+        Assert.assertNotEquals("Order number is equal 0", 0, orderNumber);
     }
 
     @Test

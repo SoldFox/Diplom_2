@@ -1,6 +1,7 @@
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,6 +15,13 @@ public class CreateUserTest {
     @Before
     public void setUp() {
         userClient = new UserClient();
+    }
+
+    @After
+    public void tearDown() {
+        if(!user.getEmail().equals("") & !user.getPassword().equals("") & !user.getName().equals("")) {
+            userClient.deleteUser(accessToken);
+        }
     }
 
     @Test
@@ -30,7 +38,6 @@ public class CreateUserTest {
         Assert.assertTrue("Value in \"success\" field = false", success);
 
         accessToken = response.extract().path("accessToken");
-        userClient.deleteUser(accessToken);
     }
 
     @Test
@@ -42,15 +49,13 @@ public class CreateUserTest {
         ValidatableResponse response = userClient.createUser(user); // Creates second user
 
         int statusCode = response.extract().statusCode();
-        Assert.assertEquals("Status code is not 403",403, statusCode);
+        Assert.assertEquals("Status code is not 403", 403, statusCode);
 
         boolean success = response.extract().path("success");
         Assert.assertFalse("Value in \"success\" field = true", success);
 
         String actualBodyAnswer = response.extract().path("message");
         Assert.assertEquals("Text in \"message\" is incorrect", "User already exists", actualBodyAnswer);
-
-        userClient.deleteUser(accessToken);
     }
 
     @Test
@@ -61,7 +66,7 @@ public class CreateUserTest {
         ValidatableResponse response = userClient.createUser(user);
 
         int statusCode = response.extract().statusCode();
-        Assert.assertEquals("Status code is not 403",403, statusCode);
+        Assert.assertEquals("Status code is not 403", 403, statusCode);
 
         boolean success = response.extract().path("success");
         Assert.assertFalse("Value in \"success\" field = true", success);
@@ -78,7 +83,7 @@ public class CreateUserTest {
         ValidatableResponse response = userClient.createUser(user);
 
         int statusCode = response.extract().statusCode();
-        Assert.assertEquals("Status code is not 403",403, statusCode);
+        Assert.assertEquals("Status code is not 403", 403, statusCode);
 
         boolean success = response.extract().path("success");
         Assert.assertFalse("Value in \"success\" field = true", success);
@@ -95,7 +100,7 @@ public class CreateUserTest {
         ValidatableResponse response = userClient.createUser(user);
 
         int statusCode = response.extract().statusCode();
-        Assert.assertEquals("Status code is not 403",403, statusCode);
+        Assert.assertEquals("Status code is not 403", 403, statusCode);
 
         boolean success = response.extract().path("success");
         Assert.assertFalse("Value in \"success\" field = true", success);
